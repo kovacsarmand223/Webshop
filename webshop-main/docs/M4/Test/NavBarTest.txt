@@ -1,0 +1,40 @@
+# Tesztjegyzőkönyv - `Navigációs menü`
+
+## 1. Teszteljárások (TP)
+
+### 1.1.Navigációs menü funkció tesztelése
+
+- Azonosító: TP-01
+- Tesztesetek: TC-01
+- Leírás: Navigációs menü
+  1. lépés: Bejelentkezünk
+  2. lépés: Rákattintunk az Profil gombra 
+  3. lépés: Rákattintunk az Kosár gombra 
+  4. lépés: Rákattintunk az Főoldal gombra 
+  5. lépés: Rákattintunk az Kijelentkezés gombra 
+
+## 2. Tesztesetek (TC)
+
+### 2.1. Navigációs menü funkció tesztesetei
+
+#### 2.1.1. TC-01
+- TP: TP-01
+- Leírás: Navigációs menü
+- Művelet: Bejelentkezés gomb megnyomása, Profil gomb megnyomása, Kosár gomb megnyomása, Főoldal gomb megnyomása, Kijelentkezés gomb megnyomása
+- Elvárt kimenet: Jó oldalak betöltése
+
+## 3. Tesztriportok (TR)
+
+### 3.1. Navigációs menü funkció tesztriportjai
+
+#### 3.1.1. TR-01 (TC-01)
+
+- TP: TP-01
+    1. lépés: Megnyomtam a Bejelenkezés gombot
+    2. lépés: Megnyomtam az Profil gombot 
+    3. lépés: Megnyomtam az Kosár gombot
+    4. lépés: Megnyomtam a Főoldal gombot
+    5. lépés: Megnyomtam az Kijelentkezés gombot
+    6. lépés: Helyes eredményt kaptam (Mindig jó oldalakat töltött be)
+
+
