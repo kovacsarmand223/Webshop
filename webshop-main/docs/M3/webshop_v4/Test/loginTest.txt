@@ -1,0 +1,43 @@
+Tesztjegyzőkönyv - Bejelentkezés
+
+Az alábbi tesztdokumentum a Webshop projekthez tartozó 8.3.6. Bejelentkezési felület létrehozása funkcióhoz készült.
+
+1. Teszteljárások (TP)
+
+	1.1. Bejelentkezés funkció tesztelése
+
+	Azonosító: TP-01
+	Tesztesetek: TC-01
+	Leírás: Bejelentkezés tesztelése
+
+	1. lépés: Nyissuk meg a bejelentkezés űrlapot!
+	2. lépés: A Felhasználónév szövegbeviteli mezőbe írjunk be a string1 stringet
+	3. lépés: A Jelszó szövegbeviteli mezőbe írjunk be a string2 stringet
+	4. lépés: Nyomjuk meg az Bejelentkezés gombot 
+	5. lépés: Ellenőrizzük az eredményt. Elvárt eredmény: Főoldal betöltődik
+
+2. Tesztesetek (TC)
+
+	2.1. Bejelentkezés funkció tesztesetei
+
+	2.1.1. TC-01
+
+		TP: TP-01
+		Leírás: Bejelentkezés funkció tesztelése
+		Bemenet: Felhasználónév = juhaszkristof; Jelszó = juhaszkristof1
+		Művelet: Bejelentkezés gomb megnyomása
+		Elvárt kimenet: Főoldal betöltődik	
+
+3. Tesztriportok (TR)
+
+	3.1. Bejelentkezés funkció tesztriportjai
+
+	3.1.1. TR-01 (TC-01)
+
+	TP: TP-01
+
+	1. lépés: Megnyomtam a Bejelentkezés gombot
+	2. lépés: Beírtam, hogy juhaszkristof
+	3. lépés: Beírtam, hogy juhaszkristof1
+	4. lépés: Megnyomtam a gombot
+	5. lépés: Helyes eredményt kaptam (Főoldal)

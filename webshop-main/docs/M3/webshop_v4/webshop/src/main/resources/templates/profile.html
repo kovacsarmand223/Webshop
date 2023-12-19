@@ -1,0 +1,304 @@
+<!DOCTYPE html>
+<html lang="hu"
+      xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+<head>
+    <title>Fooldal</title>
+    <meta charset="UTF-8"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
+    <style>
+        * {
+            font-family: Tahoma, serif;
+        }
+
+        .main-photo:after {
+            content:'';
+            background-color: rgba(5, 19, 34, 0.5);
+            position: absolute;
+            top:0;
+            left: 0;
+            width:100%;
+            height:100%;
+            z-index:-1;
+            opacity: 0.8;
+        }
+
+        .main-photo {
+            position: relative;
+            width:100%;
+            padding:100px;
+            font-weight:bold;
+            text-align:start;
+            background-color: rgba(5, 19, 34, 0.5);
+        }
+
+        .nav-bar {
+            background-color: rgba(5, 19, 34, 0.5);
+            height: 80px;
+        }
+
+        .nav-bars {
+            margin: 0 10px 0 0  ;
+        }
+
+        .register-button {
+            color: white;
+            border: 3px solid #ffc427;
+            border-radius: 5px;
+            padding: 5px;
+            background-color: transparent;
+        }
+
+        .register-button:hover {
+            background-color: #ffc427;
+        }
+
+        .background-help {
+            background: #333333;
+            border-top: 4px solid white;
+        }
+
+        .reg-btn {
+            color: white;
+            border: none;
+            background-color: transparent;
+        }
+
+        #animated-button {
+            background: transparent;
+            border: none;
+            cursor: pointer;
+        }
+
+        #icon-container{
+            overflow: hidden;
+            position: relative;
+            background-color: #ffc427;
+            border-radius: 5px;
+        }
+
+        #icon {
+            width: 40px; /* Adjust the width and height as per your requirements */
+            height: 40px;
+            transition: transform 0.3s; /* Add a smooth transition effect for animation */
+            mix-blend-mode: multiply;
+            filter: contrast(1);
+        }
+
+        footer {
+            width: 100%;
+            background: #80878f;
+            min-height: 100px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            flex-direction: column;
+            position: relative;
+        }
+
+        footer img{
+            height: 100px;
+            padding: 20px;
+        }
+
+        html{
+            background-color: #333333;
+        }
+
+    </style>
+</head>
+
+<body data-bs-offset="50">
+
+<nav class="navbar navbar-expand-sm fixed-top nav-bar">
+    <div class="container-fluid">
+        <ul class="navbar-nav">
+            <li class="nav-item">
+                <a class="nav-link text-white lead nav-bars register-button" href="/">
+                    <button class="reg-btn">Főoldal</button>
+                </a>
+            </li>
+            <li class="nav-item">
+                <a th:if="${session.isAdmin}" class="nav-link text-white nav-bars register-button" href="admin">
+                    <button class="reg-btn">Admin oldal</button>
+                </a>
+            </li>
+        </ul>
+        <div class="btn-group">
+
+            <!--Ez a megoldas a szerveroldali authentikacio tarolasara-->
+            <a th:if="${session.userAuthenticated}" href="cart">
+                <button id="animated-button">
+                    <div id="icon-container">
+                        <!-- th -> THYMELEAF representation of src -->
+                        <img th:src="@{/ASSETS/cart.png}" alt="cart_icon" id="icon">
+                    </div>
+                </button>
+            </a>
+            <a th:if="${session.userAuthenticated == true or session.userAuthenticated != null}" class="nav-link text-white nav-bars register-button" href="profile">
+                <button class="reg-btn">Profil</button>
+            </a>
+            <a th:if="${session.userAuthenticated == false or session.userAuthenticated == null}" class="nav-link text-white nav-bars register-button" href="login">
+                <button class="reg-btn">Bejelentkezés</button>
+            </a>
+            <a th:if="${session.userAuthenticated == false or session.userAuthenticated == null}" class="nav-link text-white nav-bars register-button" href="register">
+                <button class="reg-btn">Regisztráció</button>
+            </a>
+            <a th:if="${session.userAuthenticated}" class="nav-link text-white nav-bars register-button">
+                <button class="reg-btn" onclick="logout()">Kijelentkezés</button>
+            </a>
+        </div>
+    </div>
+</nav>
+
+<!--Kijelentkezes funkcio-->
+<script>
+    function logout() {
+        // Assuming you're using Thymeleaf, you can use thymeleaf syntax to create a URL for the login page
+        const loginPageUrl = "/login";
+
+        // Make a GET request to the logout endpoint
+        fetch('/logout', {
+            method: 'GET',
+            credentials: 'same-origin', // include cookies
+        })
+            .then(response => {
+                if (response.redirected) {
+                    // Redirect to the login page
+                    window.location.href = loginPageUrl;
+                } else {
+                    console.error('Unexpected response:', response);
+                }
+            })
+            .catch(error => console.error('Error:', error));
+    }
+</script>
+
+<script>
+    const button = document.getElementById('animated-button');
+    const icon = document.getElementById('icon');
+
+    button.addEventListener('mouseover', function() {
+        icon.src = '/ASSETS/cart.gif';
+    });
+
+    button.addEventListener('mouseout', function() {
+        icon.src = '/ASSETS/cart.png';
+    });
+</script>
+
+<div id="menu" class="container-fluid main-photo">
+    <p th:if="${param.erradmin}" th:text="${param.erradmin}" class="errors" style="color: red;"></p>
+    <p th:if="${param.loginsuccess}" th:text="${param.loginsuccess}" class="errors"></p>
+    <h1 th:if="${session.userAuthenticated}" th:text="'Welcome, ' + ${session.loginusername} + '!'"></h1>
+</div>
+
+<script th:inline="javascript">
+
+    document.addEventListener('DOMContentLoaded', function() {
+        // Get all elements with the class "errors"
+        var paragraphs = document.getElementsByClassName("errors");
+
+        if (paragraphs.length > 0) {
+            for (var i = 0; i < paragraphs.length; i++) {
+                var currentParagraph = paragraphs[i];
+
+                setTimeout(function() {
+                    currentParagraph.style.display = 'none';
+                }, 3000);
+            }
+        }
+    });
+</script>
+
+<!--FELHASZNALO ADAT MEGJELENITES-->
+<div class="container-fluid background-help text-white" style="padding:50px 20px; height: 400px;">
+    <h3 class="text-center mb-3">Fiók adatok: </h3>
+    <table class="table table-dark table-hover">
+        <tr>
+            <td>Felhasználónév</td>
+            <td th:text="${user.getUsername()}"></td>
+        </tr>
+        <tr>
+            <td>Vezetéknév</td>
+            <td th:text="${user.getFirstName()}"></td>
+        </tr>
+        <tr>
+            <td>Keresztnév</td>
+            <td th:text="${user.getLastName()}"></td>
+        </tr>
+        <tr>
+            <td>Település</td>
+            <td th:text="${user.getSettlement()}"></td>
+        </tr>
+        <tr>
+            <td>Utca</td>
+            <td th:text="${user.getStreet()}"></td>
+        </tr>
+        <tr>
+            <td>Házszám</td>
+            <td th:text="${user.getHouseNumber()}"></td>
+        </tr>
+
+    </table>
+</div>
+
+<div class="container-fluid background-help text-white" style="padding:50px 20px; height: 600px;">
+    <h3 class="text-center mb-3">Adatok módosítása:</h3>
+    <form action="" method="post" th:action="@{/profile/updateUser}">
+        <label for="fn">Vezetéknév:</label>
+        <input type="text" id="fn" class="form-control w-25 mb-3 input-item" name="updateFirstname" th:value="${user.getFirstName()}">
+        <label for="ln">Keresztnév:</label>
+        <input type="text" id="ln" class="form-control w-25 mb-3 input-item" name="updateLastname" th:value="${user.getLastName()}">
+        <label for="szh">Település:</label>
+        <input type="text" id="szh" class="form-control w-25 mb-3 input-item" name="updateState" th:value="${user.getSettlement()}">
+        <label for="kor">Utca:</label>
+        <input type="text" id="kor" class="form-control w-25 mb-3 input-item" name="updateStreet" th:value="${user.getStreet()}">
+        <label for="nati">Házszám:</label>
+        <input type="number" id="nati" class="form-control w-25 mb-3 input-item" name="updateHouseNumber" th:value="${user.getHouseNumber()}">
+        <input type="submit" class="btn btn-primary mb-3" value="Mentés">
+    </form>
+</div>
+
+<p th:if="${param.pwdChangeSuccess}" th:text="${param.pwdChangeSuccess}" style="color: green;"></p>
+<p th:if="${param.pwdChangeFailed0}" th:text="${param.pwdChangeFailed0}" style="color: red;"></p>
+<p th:if="${param.pwdChangeFailed}" th:text="${param.pwdChangeFailed}" style="color: red;"></p>
+<p th:if="${param.pwdChangeFailed2}" th:text="${param.pwdChangeFailed2}" style="color: red;"></p>
+<p th:if="${param.pwdChangeFailed3}" th:text="${param.pwdChangeFailed3}" style="color: red;"></p>
+
+<div class="container-fluid background-help text-white" style="padding:50px 20px; height: 400px;">
+    <h3 class="text-center">Jelszó módosítása:</h3>
+    <form action="" method="post">
+        <label for="pw1">Jelenlegi jelszó:</label>
+        <input type="password" id="pw1" class="form-control w-25 mb-3 input-item" name="currentPassword" placeholder="régi jelszó">
+        <label for="pw2">Új jelszó:</label>
+        <input type="password" id="pw2" class="form-control w-25 mb-3 input-item" name="newPassword1" placeholder="Új jelszó">
+        <label for="pw3">jelszó mégegyszer:</label>
+        <input type="password" id="pw3" class="form-control w-25 mb-3 input-item" name="newPassword2" placeholder="Új jelszó">
+        <input type="submit" class="btn btn-primary mb-3" value="Mentés">
+    </form>
+</div>
+
+<div class="container-fluid background-help text-white text-center" style="padding:50px 20px; height: 100px;">
+    <form action="#" th:action="@{/profile/deleteaccount}" method="post">
+        <input type="submit" class="btn btn-primary mb-3" value="Fiók törlése">
+    </form>
+</div>
+
+<footer>
+    <div>
+        <img th:src="@{/ASSETS/logo.png}" alt="Bolt logója">
+        <img th:src="@{/ASSETS/badge01.png}" alt="Év boltja 2020">
+        <img th:src="@{/ASSETS/badge04.png}" alt="Év boltja 2021">
+        <img th:src="@{/ASSETS/badge02.png}" alt="Év boltja 2023">
+        <img th:src="@{/ASSETS/badge03.png}" alt="Megbízható bolt">
+    </div>
+    <p>&copy;2023 | Szerzői jogi védelem alatt álló oldal. </p>
+</footer>
+
+</body>
+</html>
